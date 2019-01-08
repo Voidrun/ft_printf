@@ -4,9 +4,6 @@
 
 int	main(void)
 {
-	char *p = ft_strdup("string");
-
-	int ret = printf("|% -20f|\n", 1.0);
-	int ret2 = ft_printf("%#X\n", 123);
-	printf("%d %d\n", ret, ret2);
+	printf("FLOAT: %f\n", 1.1);
+	ft_printf("FLOAT: %f", 1.1);
 }

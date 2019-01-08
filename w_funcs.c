@@ -137,30 +137,19 @@ int		ft_putnbr_w(va_list ap, int par[9])
 
 int		ft_putfloat_w(va_list ap, int par[9])
 {
-	int			len;
-	long long	arg;
-	char		*base;
+	float	arg;
+	int		i;
+	int		left;
 
-	base = get_base(par);
-	arg = get_nbr_by_bytes((long long)va_arg(ap, long long), par[7]);
-	len = ft_nbrlen_base(arg, base) + (par[3] == -1 || arg < 0? 0 : 1);
-	while (par[5] > len && par[5] > par[6] && par[3] == -1 && par[0] == -1)
+	arg = (float)va_arg(ap, double);
+	i = 0;
+	left = (int)arg;
+	arg = arg - left;
+	while (arg - (int)arg != 0)
 	{
-		ft_putchar(' ');
-		len++;
+		arg = arg * 10;
+		i++;
 	}
-	if (par[1] != -1 || arg < 0)
-		ft_putchar((arg < 0 ? '-' : '+'));
-	while (len <= par[6] || (par[3] != -1 && par[5] > len))
-	{
-		ft_putchar('0');
-		len++;
-	}
-	ft_putnbr_base_f(arg, base);
-	while (par[0] != -1 && len < par[5])
-	{
-		ft_putchar(' ');
-		len++;
-	}
-	return (len > par[5] ? len : par[5]);
+	ft_printf("%d.%d", left, (int)arg);
+	return (1);
 }
