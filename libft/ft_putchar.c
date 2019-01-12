@@ -6,13 +6,26 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 20:04:01 by fratke            #+#    #+#             */
-/*   Updated: 2018/11/21 20:04:54 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/12 13:53:28 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-void	ft_putchar(char c)
+void	ft_putchar(int c)
 {
-	write(1, &c, 1);
+	int	left;
+	int	right;
+
+	if (c > 127)
+	{
+		left = 192 + c / 64;
+		right = 128 + c % 64;
+		write (1, &left, 1);
+		write (1, &right, 1);
+	}
+	else
+	{
+		write (1, &c, 1);
+	}
 }

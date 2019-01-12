@@ -1,12 +1,18 @@
 #include "ft_printf.h"
 #include "./libft/libft.h"
 
-int		(*g_f[]) (va_list ap, int par[10]) = {ft_putstr_w, ft_putchar_w, ft_putptr_w, ft_putnbr_w, ft_putnbr_uw, ft_putfloat_w};
+int		(*g_f[]) (va_list *ap, int par[10]) = {ft_putstr_w, ft_putchar_w, ft_putptr_w,
+								ft_putnbr_w, ft_putnbr_uw, ft_putfloat_w};
 
 int		get_func_index(int par[10])
 {
 	if (par[8] == 's')
 		return (0);
+	if (par[8] == 'S')
+	{
+		par[7] = 64;
+		return (0);
+	}
 	if (par[8] == 'c')
 		return (1);
 	if (par[8] == 'p')
@@ -15,6 +21,11 @@ int		get_func_index(int par[10])
 		return (3);
 	if (par[8] == 'o' || par[8] == 'u' || par[8] == 'x' || par[8] == 'X')
 		return (4);
+	if (par[8] == 'U')
+	{
+		par[7] = 64;
+		return (4);
+	}
 	if (par[8] == 'f')
 		return (5);
 	return (-1);
@@ -47,15 +58,37 @@ void	set_flags(char **fmt, int flags[10])
 	}
 }
 
-void	parse_format(char **fmt, int par[10], va_list ap)
+void	*get_arg(int n, va_list ap)
+{
+	int		i;
+	va_list	aq;
+	void	*ret;
+
+	i = 1;
+	va_copy(aq, ap);
+	while (i < n)
+	{
+		ret = va_arg(aq, void*);
+		i++;
+	}
+	ret = va_arg(aq, void*);
+	va_end(aq);
+	return (ret);
+}
+
+void	parse_format(char **fmt, int par[10], va_list *ap)
 {
 	set_flags(fmt, par);
-	par[5] = (**fmt == '*' ? va_arg(ap, int) : ft_atoi(*fmt));
+	par[5] = (**fmt == '*' ? va_arg(*ap, int) : ft_atoi(*fmt));
+	if (**fmt == '*')
+		(*fmt)++;
 	while (ft_isdigit(**fmt))
 		(*fmt)++;
 	if (**fmt == '.')
 		(*fmt)++;
-	par[6] = (**fmt == '*' ? va_arg(ap, int) : ft_atoi(*fmt));
+	par[6] = (**fmt == '*' ? va_arg(*ap, int) : ft_atoi(*fmt));
+	if (**fmt == '0' || (*((*fmt) - 1) == '.' && par[6] == 0))
+		par[6] = -1;
 	while (ft_isdigit(**fmt) || **fmt == '*')
 		(*fmt)++;
 	par[7] = 32;
@@ -65,7 +98,7 @@ void	parse_format(char **fmt, int par[10], va_list ap)
 		if (**fmt == 'h' && (*fmt)++)
 			par[7] = 8;
 	}
-	else if (**fmt == 'l' && (*fmt)++)
+	else if ((**fmt == 'l' || **fmt == 'j' || **fmt == 'z') && (*fmt)++)
 	{
 		par[7] = 64;
 		if (**fmt == 'l' && (*fmt)++)
@@ -74,21 +107,19 @@ void	parse_format(char **fmt, int par[10], va_list ap)
 	par[8] = (int)**fmt;
 }
 
-int		dispatcher(char **fmt, va_list ap)
+int		dispatcher(char **fmt, va_list *ap)
 {
 	int		par[10];
 	int		i;
 
 	parse_format(fmt, par, ap);
-	/*int i = 0;
-	while (i < 9)
-	{
-		ft_putnbr(par[i]);
-		ft_putchar('\n');
-		i++;
-	}*/
 	i = get_func_index(par);
-	return (i == -1 ? 0 : g_f[i] (ap, par));
+	if (i == -1)
+	{
+		i = (par[0] == -1 ? ft_printf("%*s", par[5], *fmt) : ft_printf("%-*s", par[5], *fmt));
+		return (i);
+	}
+	return (g_f[i] (ap, par));
 }
 
 int		ft_printf(char *fmt, ...)
@@ -100,17 +131,17 @@ int		ft_printf(char *fmt, ...)
 	va_start(ap, fmt);
 	while (*fmt)
 	{
-		if (*fmt == '%' && fmt++ && *fmt != '%')
+		if (*fmt == '%' && fmt++ && *fmt != 0  && *fmt != '%')
 		{
-			count += dispatcher(&fmt, ap);
-			va_arg(ap, void*);
+			count += dispatcher(&fmt, &ap);
 		}
-		else
+		else if (*fmt)
 		{
 			ft_putchar(*fmt);
 			count++;
 		}
-		fmt++;
+		if (*fmt)
+			fmt++;
 	}
 	va_end(ap);
 	return (count);
