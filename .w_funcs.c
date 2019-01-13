@@ -6,7 +6,7 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/09 21:34:26 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/13 01:48:54 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/13 15:28:34 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,18 +114,10 @@ int		ft_putnbr_uw(va_list *ap, int par[9])
 		ft_putchar('0');
 	free(pref);
 	ft_putnbr_base_fu(arg, base);
+	free(base);
 	while (par[0] != -1 && len < par[5] && ++len)
 		ft_putchar(' ');
 	return (len > par[5] ? len : par[5]);
-}
-
-int		max(int a, int b, int c)
-{
-	if (a < b)
-		a = b;
-	if (a < c)
-		a = c;
-	return (a);
 }
 
 char		*get_width(int len, int par[9])
@@ -229,7 +221,7 @@ int			ft_putnbr_wh(va_list *ap, int par[9])
 	char	*prec;
 	char	*width;
 	char	*sign;
-	
+
 	nstr = ft_itoa((short)va_arg(*ap, int));
 	if (!ft_strcmp(nstr, "0") && par[6] == -1)
 	{

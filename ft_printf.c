@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/01/13 15:47:02 by fratke            #+#    #+#             */
+/*   Updated: 2019/01/13 15:49:32 by fratke           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 #include "./libft/libft.h"
 
-int		(*g_f[]) (va_list *ap, int par[10]) = {ft_putstr_w, ft_putchar_w, ft_putptr_w,
-								ft_putnbr_w, ft_putnbr_uw, ft_putfloat_w};
+int		(*g_f[]) (va_list *ap, int par[10]) = {ft_putstr_w, ft_putchar_w,
+	ft_putptr_w, ft_putnbr_w, ft_putnbr_uw, ft_putfloat_w};
 
 int		get_func_index(int par[10])
 {
@@ -31,80 +43,32 @@ int		get_func_index(int par[10])
 	return (-1);
 }
 
-void	set_flags(char **fmt, int flags[10])
+int		ft_putdefault(char **fmt, int par[9])
 {
-	int	i;
-
-	i = 0;
-	while (i < 8)
-	{
-		flags[i] = -1;
-		i++;
-	}
-	i = 0;
-	while (ft_strchr("-+ 0#", **fmt))
-	{
-		if (*fmt[i] == '-')
-			flags[0] = 1;
-		if (*fmt[i] == '+')
-			flags[1] = 1;
-		if (*fmt[i] == ' ')
-			flags[2] = 1;
-		if (*fmt[i] == '0')
-			flags[3] = 1;
-		if (*fmt[i] == '#')
-			flags[4] = 1;
-		(*fmt)++;
-	}
-}
-
-void	*get_arg(int n, va_list ap)
-{
+	int		len;
 	int		i;
-	va_list	aq;
-	void	*ret;
 
-	i = 1;
-	va_copy(aq, ap);
-	while (i < n)
-	{
-		ret = va_arg(aq, void*);
+	i = 0;
+	while (fmt[0][i] != '%' && fmt[0][i] != 0)
 		i++;
-	}
-	ret = va_arg(aq, void*);
-	va_end(aq);
-	return (ret);
-}
-
-void	parse_format(char **fmt, int par[10], va_list *ap)
-{
-	set_flags(fmt, par);
-	par[5] = (**fmt == '*' ? va_arg(*ap, int) : ft_atoi(*fmt));
-	if (**fmt == '*')
-		(*fmt)++;
-	while (ft_isdigit(**fmt))
-		(*fmt)++;
-	if (**fmt == '.')
-		(*fmt)++;
-	par[6] = (**fmt == '*' ? va_arg(*ap, int) : ft_atoi(*fmt));
-	if (**fmt == '0' || (*((*fmt) - 1) == '.' && par[6] == 0))
-		par[6] = -1;
-	while (ft_isdigit(**fmt) || **fmt == '*')
-		(*fmt)++;
-	par[7] = 32;
-	if (**fmt == 'h' && (*fmt)++)
+	if (fmt[0][i] != 0 && fmt[0][i + 1] == 0 && fmt[0][i] == '%'
+			&& !ft_isalpha(fmt[0][i - 1]))
+		i++;
+	len = ft_strlen(*fmt);
+	while (par[0] == -1 && len < par[5])
 	{
-		par[7] = 16;
-		if (**fmt == 'h' && (*fmt)++)
-			par[7] = 8;
+		len++;
+		ft_putchar((par[3] == -1) ? ' ' : '0');
 	}
-	else if ((**fmt == 'l' || **fmt == 'j' || **fmt == 'z') && (*fmt)++)
-	{
-		par[7] = 64;
-		if (**fmt == 'l' && (*fmt)++)
-			par[7] = 64;
-	}
-	par[8] = (int)**fmt;
+	if (par[5] == 0)
+		len = ft_printf("%.*s", i, *fmt);
+	else
+		ft_printf("%s", *fmt);
+	while (par[0] == 1 && len < par[5] && len++)
+		ft_putchar(' ');
+	while (**fmt && fmt[0][1] != '%')
+		(*fmt)++;
+	return (len);
 }
 
 int		dispatcher(char **fmt, va_list *ap)
@@ -115,11 +79,8 @@ int		dispatcher(char **fmt, va_list *ap)
 	parse_format(fmt, par, ap);
 	i = get_func_index(par);
 	if (i == -1)
-	{
-		i = (par[0] == -1 ? ft_printf("%*s", par[5], *fmt) : ft_printf("%-*s", par[5], *fmt));
-		return (i);
-	}
-	return (g_f[i] (ap, par));
+		return (ft_putdefault(fmt, par));
+	return (g_f[i](ap, par));
 }
 
 int		ft_printf(char *fmt, ...)
@@ -131,7 +92,7 @@ int		ft_printf(char *fmt, ...)
 	va_start(ap, fmt);
 	while (*fmt)
 	{
-		if (*fmt == '%' && fmt++ && *fmt != 0  && *fmt != '%')
+		if (*fmt == '%' && fmt++ && *fmt != 0 && *fmt != '%')
 		{
 			count += dispatcher(&fmt, &ap);
 		}

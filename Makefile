@@ -2,7 +2,7 @@ all:
 	gcc -Wall -Wextra -Werror *.c -c
 	ar rcs libftprintf.a *.o libft/*.o
 
-test: 
+test: fclean
 	gcc -Wall -Wextra *.c -L./libft -lft -o test -g
 
 clean:
