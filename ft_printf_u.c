@@ -6,7 +6,7 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 15:39:15 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/13 17:28:30 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/14 22:36:47 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char		*get_base(int par[9])
 		return (ft_strdup("01234567"));
 	if (par[8] == 'X')
 		return (ft_strdup("0123456789ABCDEF"));
+	if (par[8] == 'b')
+		return (ft_strdup("01"));
 	return (NULL);
 }
 

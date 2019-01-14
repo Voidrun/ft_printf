@@ -1,17 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   colors.c                                           :+:      :+:    :+:   */
+/*   ft_putfile.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/13 21:47:34 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/14 21:44:53 by fratke           ###   ########.fr       */
+/*   Created: 2019/01/14 22:41:36 by fratke            #+#    #+#             */
+/*   Updated: 2019/01/14 23:29:12 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "ft_printf.h"
+#include "libft/libft.h"
+#include <fcntl.h>
+
+int		ft_putfile_w(va_list *ap, int par[9])
+{
+	int		fd;
+	int		ret;
+	char	*str;
+
+	ret = 0;
+	(void)par;
+	fd = (int)va_arg(*ap, int);
+	while (get_next_line(fd, &str) > 0)
+	{
+		ret += ft_printf("%s\n", str);
+		free(str);
+	}
+	return (ret);
+}
+
+int		ft_puttab_w(va_list *ap, int par[9])
+{
+	char	**tab;
+	int		ret;
+
+	ret = 0;
+	(void)par;
+	tab = (char**)va_arg(*ap, char**);
+	if (!tab)
+		return (ft_printf("(null)"));
+	while (*tab)
+	{
+		ret += ft_printf("%s\n", *tab);
+		tab++;
+	}
+	return (ret);
+}
 
 void	colors(char **fmt)
 {
@@ -39,5 +75,5 @@ void	colors(char **fmt)
 	if (ft_strnstr(*fmt, "eoc", i) && (flag = 1))
 		ft_printf("\x1b[0m");
 	if (flag)
-		*fmt += i;
+		*fmt += i + 1;
 }

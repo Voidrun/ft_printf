@@ -6,7 +6,7 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 15:52:34 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/14 21:24:17 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/14 23:04:21 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ int		ft_putnbr_uw(va_list *ap, int params[9]);
 int		ft_putfloat_w(va_list *ap, int par[9]);
 int		ft_strlen_w(int *str);
 int		ft_putdef(char **str, int par[9]);
+int		ft_putfile_w(va_list *ap, int par[9]);
 char	*ft_itoa_f(int nbr);
 char	*get_sign(char **nstr, int par[9]);
 char	*get_prec(int len, int par[9]);
 char	*get_width(int len, int par[9]);
 void	parse_format(char **fmt, int par[10], va_list *ap);
 void	colors(char **fmt);
+int		ft_puttab_w(va_list *ap, int par[9]);
 
 #endif
