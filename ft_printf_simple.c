@@ -6,7 +6,7 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 15:42:12 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/13 15:42:36 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/13 17:19:09 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int			ft_putstr_w(va_list *ap, int par[9])
 {
 	int ret;
 
-	if (par[7] == 64)
+	if (par[7] == 64 || par[8] == 'S')
 		ret = (ft_putstr_fw((wchar_t*)va_arg(*ap, wchar_t*), par));
 	else
 		ret = (ft_putstr_f((char*)va_arg(*ap, char*), par));

@@ -6,7 +6,7 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 18:33:36 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/13 15:13:08 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/13 21:36:42 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_putstr_fw(int *str, int params[9])
 	int	len;
 
 	if (!str)
-		return (ft_printf("null"));
+		return (ft_printf("(null)"));
 	i = -1;
 	len = ft_strlen_w(str);
 	if (params[6] > 0 && params[6] < len)
@@ -36,7 +36,7 @@ int	ft_putstr_fw(int *str, int params[9])
 	{
 		while (params[5] > len++)
 			ft_putchar(' ');
-		while (str[++i] && (i < params[6] || params[6] == 0))
+		while (str[++i] && (i < params[6] || !params[6]))
 			ft_putchar(str[i]);
 	}
 	return (i);
@@ -65,7 +65,7 @@ int	ft_putstr_f(char *str, int params[9])
 	{
 		while (params[5] > len++)
 			ft_putchar((params[3] == 1) ? ('0') : (' '));
-		while (str[++i] && (i < params[6] || params[6] == 0))
+		while (str[++i] && (i < params[6] || !params[6]))
 			ft_putchar(str[i]);
 	}
 	return (i);

@@ -6,7 +6,7 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 15:51:03 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/13 15:51:29 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/14 22:22:43 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	get_len(char **fmt, int par[9])
 
 	n = 0;
 	par[7] = 32;
-	while ((!(ft_isalpha(fmt[0][n])) || ft_strchr("hljz", fmt[0][n]))
-			&& fmt[0][n] && fmt[0][n] != '%')
+	while ((ft_strchr("hljz +-#0.", fmt[0][n]) ||
+				ft_isdigit(fmt[0][n])) && fmt[0][n] != 0)
 		n++;
 	if (ft_strnstr(*fmt, "hh", n))
 		par[7] = 8;

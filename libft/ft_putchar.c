@@ -6,7 +6,7 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 20:04:01 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/12 13:53:28 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/14 21:40:30 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,27 @@
 
 void	ft_putchar(int c)
 {
-	int	left;
-	int	right;
+	int					i;
+	int					j;
+	unsigned char		str[4];
 
-	if (c > 127)
+	if (c < 128 && write(1, &c, 1))
+		return ;
+	str[0] = 0;
+	str[1] = 0;
+	str[2] = 0;
+	str[3] = 0;
+	i = 31;
+	j = 0;
+	while (!(c & 1 << i))
+		i--;
+	while (c & 1 << i--)
+		j++;
+	i = j;
+	while (j--)
 	{
-		left = 192 + c / 64;
-		right = 128 + c % 64;
-		write (1, &left, 1);
-		write (1, &right, 1);
+		str[j] |= c;
+		c >>= 8;
 	}
-	else
-	{
-		write (1, &c, 1);
-	}
+	write(1, str, i);
 }

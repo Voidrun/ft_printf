@@ -6,7 +6,7 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/20 18:33:58 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/13 01:41:38 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/14 21:28:31 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char				*ft_strtrim(char const *s);
 char				**ft_strsplit(char const *s, char c);
 char				*ft_itoa(int n);
 char				*ft_itoa_l(long long n);
-void				ft_putchar(char c);
+void				ft_putchar(int c);
 void				ft_putstr(const char *s);
 void				ft_putendl(const char *s);
 void				ft_putnbr(int n);
@@ -90,7 +90,7 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 int					get_next_line(const int fd, char **line);
 int					ft_nbrlen_base(long long int nbr, char *base);
 int					ft_nbrlen_base_u(unsigned long long nbr, char *base);
-unsigned long long 	get_nbr_by_bytes(unsigned long long nbr, int bytes);
-unsigned long long 	get_nbr_by_bytes_u(unsigned long long nbr, int bytes);
+unsigned long long	get_nbr_by_bytes(unsigned long long nbr, int bytes);
+unsigned long long	get_nbr_by_bytes_u(unsigned long long nbr, int bytes);
 
 #endif

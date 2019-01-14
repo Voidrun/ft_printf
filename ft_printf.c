@@ -6,7 +6,7 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 15:47:02 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/13 15:49:32 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/14 22:23:14 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,18 @@ int		(*g_f[]) (va_list *ap, int par[10]) = {ft_putstr_w, ft_putchar_w,
 
 int		get_func_index(int par[10])
 {
-	if (par[8] == 's')
+	if (par[8] == 's' || par[8] == 'S')
 		return (0);
-	if (par[8] == 'S')
-	{
-		par[7] = 64;
-		return (0);
-	}
-	if (par[8] == 'c')
+	if (par[8] == 'c' || par[8] == 'C')
 		return (1);
 	if (par[8] == 'p')
 		return (2);
+	if (par[8] == 'D' && (par[7] = 64))
+		return (3);
 	if (par[8] == 'd' || par[8] == 'i')
 		return (3);
+	if (par[8] == 'O' && (par[7] = 64))
+		return (4);
 	if (par[8] == 'o' || par[8] == 'u' || par[8] == 'x' || par[8] == 'X')
 		return (4);
 	if (par[8] == 'U')
@@ -38,37 +37,36 @@ int		get_func_index(int par[10])
 		par[7] = 64;
 		return (4);
 	}
-	if (par[8] == 'f')
+	if (par[8] == 'f' || par[8] == 'F')
 		return (5);
 	return (-1);
 }
 
 int		ft_putdefault(char **fmt, int par[9])
 {
-	int		len;
 	int		i;
+	int		ret;
 
 	i = 0;
-	while (fmt[0][i] != '%' && fmt[0][i] != 0)
+	while (fmt[0][i] != 0 && fmt[0][i + 1] != '%')
 		i++;
-	if (fmt[0][i] != 0 && fmt[0][i + 1] == 0 && fmt[0][i] == '%'
-			&& !ft_isalpha(fmt[0][i - 1]))
+	if (ft_isalpha(fmt[0][i]) && !i)
 		i++;
-	len = ft_strlen(*fmt);
-	while (par[0] == -1 && len < par[5])
+	if (par[0] == -1)
 	{
-		len++;
-		ft_putchar((par[3] == -1) ? ' ' : '0');
+		if (par[3] == -1)
+			ret = ft_printf("%*.*s", par[5], i, *fmt);
+		else
+			ret = ft_printf("%0*.*s", par[5], i, *fmt);
 	}
-	if (par[5] == 0)
-		len = ft_printf("%.*s", i, *fmt);
+	else if (par[3] == -1)
+		ret = ft_printf("%-*.*s", par[5], i, *fmt);
 	else
-		ft_printf("%s", *fmt);
-	while (par[0] == 1 && len < par[5] && len++)
-		ft_putchar(' ');
-	while (**fmt && fmt[0][1] != '%')
-		(*fmt)++;
-	return (len);
+		ret = ft_printf("%-0*.*s", par[5], i, *fmt);
+	if (fmt[0][i] == '%')
+		i--;
+	*fmt += i;
+	return (ret);
 }
 
 int		dispatcher(char **fmt, va_list *ap)
@@ -92,6 +90,8 @@ int		ft_printf(char *fmt, ...)
 	va_start(ap, fmt);
 	while (*fmt)
 	{
+		if (*fmt == '{')
+			colors(&fmt);
 		if (*fmt == '%' && fmt++ && *fmt != 0 && *fmt != '%')
 		{
 			count += dispatcher(&fmt, &ap);

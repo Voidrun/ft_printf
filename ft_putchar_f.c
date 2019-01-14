@@ -6,13 +6,13 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 01:49:21 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/13 01:49:39 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/14 21:34:40 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 
-int		ft_putchar_f(char c, int params[9])
+int		ft_putchar_f(int c, int params[9])
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 15:39:15 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/13 15:46:14 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/13 17:28:30 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char		*get_base(int par[9])
 		return (ft_strdup("0123456789"));
 	if (par[8] == 'p' || par[8] == 'x')
 		return (ft_strdup("0123456789abcdef"));
-	if (par[8] == 'o')
+	if (par[8] == 'o' || par[8] == 'O')
 		return (ft_strdup("01234567"));
 	if (par[8] == 'X')
 		return (ft_strdup("0123456789ABCDEF"));
@@ -32,7 +32,7 @@ int			check_hash(char *str, int par[9])
 	free(str);
 	if (par[4] != -1)
 	{
-		if (par[8] == 'o')
+		if (par[8] == 'o' || par[8] == 'O')
 		{
 			str = ft_strdup("0");
 			return (1);
