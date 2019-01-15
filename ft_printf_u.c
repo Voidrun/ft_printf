@@ -6,7 +6,7 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 15:39:15 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/14 22:36:47 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/15 22:45:20 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int			ft_putnbr_uw(va_list *ap, int par[9])
 
 	base = get_base(par);
 	pref = ft_strdup("");
+	par[7] = (par[8] == 'O') ? (64) : (par[7]);
 	arg = get_nbr_by_bytes_u((size_t)va_arg(*ap, size_t), par[7]);
 	len = ft_nbrlen_base_u(arg, base) + (arg == 0 ? 0 : check_hash(pref, par));
 	if (arg == 0 && par[6] == -1 && !(par[8] == 'o' && par[4] == 1))

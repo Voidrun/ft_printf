@@ -6,7 +6,7 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 15:52:34 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/14 23:04:21 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/15 22:40:19 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@ char	*get_width(int len, int par[9]);
 void	parse_format(char **fmt, int par[10], va_list *ap);
 void	colors(char **fmt);
 int		ft_puttab_w(va_list *ap, int par[9]);
+int		ft_putfloat_e(va_list *ap, int par[9]);
+int		ft_putfloat_g(va_list *ap, int par[9]);
 
 #endif

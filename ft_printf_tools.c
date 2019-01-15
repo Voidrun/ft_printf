@@ -6,7 +6,7 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 15:51:03 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/14 22:22:43 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/15 22:48:37 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	set_flags(char **fmt, int flags[10])
 	while (++i < 8)
 		flags[i] = -1;
 	i = 0;
-	while (!ft_strchr("cspdiouxXUOfFS%", (*fmt)[i]))
+	while (!ft_strchr("cspDdiouxXUOfFS%", (*fmt)[i]))
 		i++;
 	if (ft_strnstr(*fmt, "-", i))
 		flags[0] = 1;
@@ -65,7 +65,7 @@ void	get_len(char **fmt, int par[9])
 
 	n = 0;
 	par[7] = 32;
-	while ((ft_strchr("hljz +-#0.", fmt[0][n]) ||
+	while ((ft_strchr("hlLjz +-#0.", fmt[0][n]) ||
 				ft_isdigit(fmt[0][n])) && fmt[0][n] != 0)
 		n++;
 	if (ft_strnstr(*fmt, "hh", n))
@@ -73,7 +73,7 @@ void	get_len(char **fmt, int par[9])
 	if ((tmp = ft_strnstr(*fmt, "h", n)) && *(tmp + 1) != 'h')
 		par[7] = 16;
 	if (ft_strnstr(*fmt, "l", n) || ft_strnstr(*fmt, "j", n) ||
-			ft_strnstr(*fmt, "z", n))
+			ft_strnstr(*fmt, "z", n) || ft_strnstr(*fmt, "L", n))
 		par[7] = 64;
 	*fmt += n;
 }

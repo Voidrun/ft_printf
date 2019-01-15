@@ -6,7 +6,7 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 18:33:36 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/14 23:16:59 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/15 22:52:02 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_putstr_fw(int *str, int params[9])
 	int	len;
 
 	if (!str)
-		return (ft_printf("(null)"));
+		return (ft_printf("%*.*s", params[5], params[6], "(null)"));
 	i = -1;
 	len = ft_strlen_w(str);
 	if (params[6] > 0 && params[6] < len)

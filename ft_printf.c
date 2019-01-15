@@ -6,7 +6,7 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 15:47:02 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/14 23:05:01 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/15 22:40:08 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int		(*g_f[]) (va_list *ap, int par[10]) = {ft_putstr_w, ft_putchar_w,
 	ft_putptr_w, ft_putnbr_w, ft_putnbr_uw, ft_putfloat_w, ft_putfile_w,
-	ft_puttab_w};
+	ft_puttab_w, ft_putfloat_e, ft_putfloat_g};
 
 int		get_func_index(int par[10])
 {
@@ -25,13 +25,9 @@ int		get_func_index(int par[10])
 		return (1);
 	if (par[8] == 'p')
 		return (2);
-	if (par[8] == 'D' && (par[7] = 64))
+	if (par[8] == 'd' || par[8] == 'i' || par[8] == 'D')
 		return (3);
-	if (par[8] == 'd' || par[8] == 'i')
-		return (3);
-	if (par[8] == 'O' && (par[7] = 64))
-		return (4);
-	if (par[8] == 'o' || par[8] == 'u' ||
+	if (par[8] == 'o' || par[8] == 'u' || par[8] == 'O' ||
 			par[8] == 'b' || par[8] == 'x' || par[8] == 'X')
 		return (4);
 	if (par[8] == 'U' && (par[7] = 64))
@@ -42,6 +38,10 @@ int		get_func_index(int par[10])
 		return (6);
 	if (par[8] == 'a')
 		return (7);
+	if (par[8] == 'e')
+		return (8);
+	if (par[8] == 'g')
+		return (9);
 	return (-1);
 }
 

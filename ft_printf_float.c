@@ -6,7 +6,7 @@
 /*   By: fratke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 15:41:37 by fratke            #+#    #+#             */
-/*   Updated: 2019/01/14 23:25:59 by fratke           ###   ########.fr       */
+/*   Updated: 2019/01/15 23:05:59 by fratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,7 @@ char		*get_right_l(long double f, int prec)
 			res[i] = (long long)f + '0';
 			i++;
 		}
-		f -= (long long)f;
 		res[i] = '\0';
-		res[i - 1] = (f * 10 > 4) ? (res[i] + 1) : (res[i] - 1);
 	}
 	fround(res);
 	return (res);
